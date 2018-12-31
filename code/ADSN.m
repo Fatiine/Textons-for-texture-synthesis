@@ -4,9 +4,8 @@ m=mean(mean(u));
 [h,l]=size(u);
 
 % normalize image and its FFT
-un=u-m*ones(size(u));
-un=un/(h*l);
-U=fft2(u);
+un=normalize_image(u);
+U=fft2(un);
 
 %bruit gaussien et FFT
 n=randn(size(u));
