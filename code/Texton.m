@@ -5,6 +5,6 @@ v=abs(U)
 c1=floor((M/2)+1)
 c2=floor((N/2)+1)
 v(c1,c2)= U(c1,c2)
-t=ifft2(v)
+t=fftshift(ifft2(v))
 
  
