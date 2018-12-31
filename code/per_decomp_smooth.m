@@ -1,4 +1,4 @@
-function [p,s] = per_decomp_smooth(u)
+function [p] = per_decomp_smooth(u)
 
 [M,N] = size(u); 
 u = double(u);
