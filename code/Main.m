@@ -1,5 +1,4 @@
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%  GRAY LEVEL IMAGE   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -34,7 +33,7 @@ t=uint8(t);
 T = double(t);
 T = normalize_image(T);
 % Display 
-figure(33)
+figure(4)
 [m,n]=size(T)
 imagesc(T(floor(m/2)-10:floor(m/2)+10,floor(n/2)-8:floor(n/2)+8));colormap gray;
 title('Texton Support ');
@@ -45,21 +44,21 @@ perT=uint8(perT);
 PerT = double(perT);
 PerT=normalize_image(PerT);
 %Afficher Texton
-figure(4)
+figure(5)
 imagesc(PerT);colormap gray;
 title('Texton of periodic component');
 
 %  Thresholding
 I1=T;
 I1(I1<100 & I1>1)=mean(mean(I1));
-figure(5)
+figure(6)
 imagesc(I1);colormap gray;
 title('Texton thresholding');
 
 % Thresholding
 I12=PerT;
 I12(I12<200 & I12>1)=mean(mean(I12));
-figure(6)
+figure(7)
 imagesc(I12);colormap gray;
 title('Periodic Component Texton thresholding');
 
@@ -72,7 +71,7 @@ n=randn(size(I2));
 N=fft2(n);
 B=abs(A).*exp(1i*angle(N));
 b=real(ifft2(B));
-figure(7)
+figure(8)
 imagesc(b);colormap gray;
 title(" synthesize texture after phase randomization");
 
@@ -86,7 +85,7 @@ n=randn(size(I22));
 N=fft2(n);
 B=abs(A).*exp(1i*angle(N));
 b=real(ifft2(B));
-figure(8)
+figure(9)
 imagesc(b);colormap gray;
 title(" synthesize texture after phase randomization of periodic component texton");
 
@@ -97,41 +96,53 @@ title(" synthesize texture after phase randomization of periodic component texto
 % title("Convariance of the periodic component")
 
 % ADSN of original image
-figure (9)
+figure (10)
 d1 = ADSN(a);
 imagesc(d1); colormap gray;
 title("Asymptotic Discrete Spot Noise");
 
 % ADSN of periodic component
-figure(10) 
+figure(11) 
 d2 = ADSN(Per);
 imagesc(d2); colormap gray;
 title("Asymptotic Discrete Spot Noise of periodic component");
+
+% RPN of original image
+figure (12)
+d1 = RPN(a);
+imagesc(d1); colormap gray;
+title("RPN");
+
+% RPN of periodic component
+figure(13) 
+d2 = RPN(Per);
+imagesc(d2); colormap gray;
+title("RPN of periodic component");
 
 %%%%%%%%%%%%%%%%%%%% Synthesizing Textures With Arbitrary Sizes%%%%%%%%%%%%
 % with ADSN
 [p1,p2] = size(Per)
 PerEx=extend(Per,2*p1,2*p2)
 PerExSyth=ADSN(PerEx)
-figure(17)
+figure(14)
 imagesc(PerEx); colormap gray;
 title("Extension of periodic component ( "+ string(p1) + " x " + string(p2)+" )=> ( "+ string(2*p1)+ " x " + string(2*p2)+ ")");
-figure(18)
+figure(15)
 imagesc(PerExSyth); colormap gray;
 title("ADSN of the extension of periodic component ( "+ string(p1) + " x " + string(p2)+" )=> ( "+ string(2*p1)+ " x " + string(2*p2) + ")");
 
-figure(19)
+figure(16)
 Per2=Per(1:20,1:16)
 PerEx=extend(Per2,2* p1, 2* p2)
 PerExSyth=ADSN(PerEx)
 imagesc(PerEx); colormap gray;
 title("Extension of periodic component ( 20 x 16 ) => ( "+ string(2*p1)+ " x " + string(2*p2)+")");
-figure(20)
+figure(17)
 imagesc(PerExSyth); colormap gray;
 title("ADSN of the extension of periodic component ( 20 x 16 ) => ( "+ string(2*p1)+ " x " + string(2*p2) + ")");
 
 % with Texton 
-figure(21)
+figure(18)
 I99=mean(mean(Per))*ones(2* p1, 2* p2);
 [M22,N22]=size(Per)
 l=floor(2* p1/2);
@@ -147,7 +158,7 @@ n=randn(size(I99));
 N=fft2(n);
 B=abs(A).*exp(1i*angle(N));
 b=real(ifft2(B));
-figure(22)
+figure(19)
 imagesc(b);colormap gray;
 title("Synthesizing a large size texture with periodic component texton ");
 
@@ -157,7 +168,7 @@ title("Synthesizing a large size texture with periodic component texton ");
 
 % load colored imahe 
 a1=imread('../data/nuages.jpg');
-figure(11)
+figure(20)
 imshow(a1);
 title('Original');
 
@@ -167,19 +178,19 @@ per(:,:,1) = per_decomp_smooth(a1(:,:,1));
 per(:,:,2) = per_decomp_smooth(a1(:,:,2));
 per(:,:,3) = per_decomp_smooth(a1(:,:,3));
 per = uint8(per);
-figure(12)
+figure(21)
 imshow(per);
 title('Periodic component');
 
 % Texton
-figure(13)
+figure(22)
 alpha=[0.5;0.33;0.17];
 col_texton=Col_Texton(a1,alpha);
 imshow(col_texton);
 title('Color Texton');
 
 % Periodic component Texton
-figure(14)
+figure(23)
 alpha=[0.5;0.33;0.17];
 col_texton_per=Col_Texton(per,alpha);
 imshow(col_texton_per);
@@ -192,7 +203,7 @@ N=fft2(n);
 Col_texton(:,:,1)=abs(Col_texton(:,:,1)).*exp(1i*(angle(Col_texton(:,:,1))+angle(N))); 
 Col_texton(:,:,2)=abs(Col_texton(:,:,2)).*exp(1i*(angle(Col_texton(:,:,2))+angle(N))); 
 Col_texton(:,:,3)=abs(Col_texton(:,:,3)).*exp(1i*(angle(Col_texton(:,:,3))+angle(N)));  
-figure(15) 
+figure(24) 
 b=uint8(ifft2(Col_texton)); 
 imshow(b); 
 title(" Texture synthesis after phase randomization"); 
@@ -205,9 +216,21 @@ Col_texton_per(:,:,1)=abs(Col_texton_per(:,:,1)).*exp(1i*(angle(Col_texton_per(:
 Col_texton_per(:,:,2)=abs(Col_texton_per(:,:,2)).*exp(1i*(angle(Col_texton_per(:,:,2))+angle(N1))); 
 Col_texton_per(:,:,3)=abs(Col_texton_per(:,:,3)).*exp(1i*(angle(Col_texton_per(:,:,3))+angle(N1))); 
  
-figure(16) 
+figure(25) 
 b_per=uint8(ifft2(Col_texton_per)); 
 imshow(b_per); 
 title(" Texture synthesis after phase randomization of the periodic component texton"); 
 
+% RPN of original image
+figure (26)
+a1_rpn = RPN_color(a1);
+a1_rpn=uint8(a1_rpn);
+imshow(a1_rpn); 
+title("RPN de l'image originale");
 
+% RPN of periodic component
+figure (27)
+per_rpn = RPN_color(per);
+per_rpn=uint8(per_rpn);
+imshow(per_rpn); 
+title("RPN de la composante périodique ");
