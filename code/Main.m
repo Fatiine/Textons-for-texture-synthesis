@@ -145,9 +145,9 @@ title("RPN of periodic component texton");
 
 %%%%%%%%%%%%%%%%%%%% Synthesizing Textures With Arbitrary Sizes%%%%%%%%%%%%
 % with ADSN
-[p1,p2] = size(Per)
-PerEx=extend(Per,2*p1,2*p2)
-PerExSyth=ADSN(PerEx)
+[p1,p2] = size(Per);
+PerEx=extend(Per,2*p1,2*p2);
+PerExSyth=ADSN(PerEx);
 figure(14)
 imagesc(PerEx); colormap gray;
 title("Extension of periodic component ( "+ string(p1) + " x " + string(p2)+" )=> ( "+ string(2*p1)+ " x " + string(2*p2)+ ")");
@@ -156,9 +156,9 @@ imagesc(PerExSyth); colormap gray;
 title("ADSN of the extension of periodic component ( "+ string(p1) + " x " + string(p2)+" )=> ( "+ string(2*p1)+ " x " + string(2*p2) + ")");
 
 figure(16)
-Per2=Per(1:20,1:16)
-PerEx=extend(Per2,2* p1, 2* p2)
-PerExSyth=ADSN(PerEx)
+Per2=Per(1:100,1:100);
+PerEx=extend(Per2,2* p1, 2* p2);
+PerExSyth=ADSN(PerEx);
 imagesc(PerEx); colormap gray;
 title("Extension of periodic component ( 20 x 16 ) => ( "+ string(2*p1)+ " x " + string(2*p2)+")");
 figure(17)
@@ -168,7 +168,7 @@ title("ADSN of the extension of periodic component ( 20 x 16 ) => ( "+ string(2*
 % with Texton 
 figure(18)
 I99=mean(mean(Per))*ones(2* p1, 2* p2);
-[M22,N22]=size(Per)
+[M22,N22]=size(Per);
 l=floor(2* p1/2);
 s=floor(2* p2/2);
 L=floor(M22/2);
@@ -191,7 +191,7 @@ title("Synthesizing a large size texture with periodic component texton ");
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % load colored imahe 
-a1=imread('../data/textures/wall1011.png');
+a1=imread('../data/textures/c28.png');
 figure(20)
 imshow(a1);
 title('Image originale');
@@ -204,7 +204,7 @@ per(:,:,3) = per_decomp_smooth(a1(:,:,3));
 per = uint8(per);
 figure(21)
 imshow(per);
-title('Composante périodique');
+title('Composante pÃ©riodique');
 
 % Texton
 figure(22)
@@ -218,7 +218,7 @@ figure(23)
 alpha=[0.5;0.33;0.17];
 col_texton_per=Col_Texton(per,alpha);
 imshow(col_texton_per);
-title('Texton de la composante périodique');
+title('Texton de la composante pÃ©riodique');
 
 % Randomization 
 Col_texton=fft2(col_texton); 
@@ -230,7 +230,7 @@ Col_texton(:,:,3)=abs(Col_texton(:,:,3)).*exp(1i*(angle(Col_texton(:,:,3))+angle
 figure(24) 
 b=uint8(ifft2(Col_texton)); 
 imshow(b); 
-title(" Synthèse de texture après la randomization de phase du texton"); 
+title(" SynthÃ¨se de texture aprÃ¨s la randomization de phase du texton"); 
 
 % Randomization of periodic component 
 Col_texton_per=fft2(col_texton_per); 
@@ -243,30 +243,60 @@ Col_texton_per(:,:,3)=abs(Col_texton_per(:,:,3)).*exp(1i*(angle(Col_texton_per(:
 figure(25) 
 b_per=uint8(ifft2(Col_texton_per)); 
 imshow(b_per); 
-title(" Synthèse de texture après la randomization de phase du texton de la composante périodique "); 
+title(" SynthÃ¨se de texture aprÃ¨s la randomization de phase du texton de la composante pÃ©riodique "); 
 
 % RPN of original image
 figure (26)
 a1_rpn = RPN_color(a1);
 a1_rpn=uint8(a1_rpn);
 imshow(a1_rpn); 
-title("RPN de l'image originale");
+title("RPN of the original image");
 
 % RPN of periodic component
 figure (27)
 per_rpn = RPN_color(per);
 per_rpn=uint8(per_rpn);
 imshow(per_rpn); 
-title("RPN de la composante périodique ");
+title("RPN of the periodic component ");
 
 % ADSN of original image
 figure (28)
 d3 = ADSN_color(a1);
 imshow(d3);
-title("ADSN de l'image originale");
+title("ADSN");
 
 % ADSN of periodic component
 figure(29) 
 d4 = ADSN_color(per);
 imshow(d4);
-title("L'ADSN de la composante périodique");
+title("ADSN of periodic component");
+
+
+% Imagette texton / comparaison avec SOT
+figure(30)
+m1=mean(mean(per(:,:,1)));
+m2=mean(mean(per(:,:,2)));
+m3=mean(mean(per(:,:,3)));
+[p1,p2,c]=size(per);
+I99=ones( p1, p2,c);
+I99(:,:,1)=m1*I99(:,:,1);
+I99(:,:,2)=m2*I99(:,:,2);
+I99(:,:,3)=m3*I99(:,:,3);
+l=floor(p1/2);
+s=floor(p2/2);
+I99(l-30:l+30,s-30:s+30,:)=col_texton(l-30:l+30,s-30:s+30,:);
+imshow(uint8(I99));
+title('Color Texton Extended');
+
+% Randomization 
+Col_texton2=fft2(I99); 
+n=randn(size(I99(:,:,1))); 
+N=fft2(n); 
+Col_texton2(:,:,1)=abs(Col_texton2(:,:,1)).*exp(1i*(angle(Col_texton2(:,:,1))+angle(N))); 
+Col_texton2(:,:,2)=abs(Col_texton2(:,:,2)).*exp(1i*(angle(Col_texton2(:,:,2))+angle(N))); 
+Col_texton2(:,:,3)=abs(Col_texton2(:,:,3)).*exp(1i*(angle(Col_texton2(:,:,3))+angle(N)));  
+figure(31) 
+b=uint8(ifft2(Col_texton2)); 
+imshow(b); 
+title(" Texture synthesis from extended color texton"); 
+

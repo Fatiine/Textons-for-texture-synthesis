@@ -3,16 +3,15 @@ function t = ADSN(u)
 m=mean(mean(u));
 [h,l]=size(u);
 
-%image normalisee et sa TFD
+% Normalized image and it FFT
 un=u-m*ones(size(u));
 un=un/(h*l);
 U=fft2(un);
 
-%bruit gaussien et FFT
+% Random Noise
 n=randn(size(u));
 N=fft2(n);
 
-%bruit final
 B=U.*N;
 b=ifft2(B);
 

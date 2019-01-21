@@ -1,5 +1,4 @@
 function [p] = per_decomp_smooth(u)
-
 [M,N] = size(u); 
 u = double(u);
 X = 1:N; Y = 1:M;

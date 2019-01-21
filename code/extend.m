@@ -10,6 +10,6 @@ if m<=M && n<=N
     new(L-l:L+m-l-1,S-s:S+n-s-1)=u
     t=new
 else
-   display("Choisissez des dimensions plus grandes")
+   display("Choose greater dimensions !")
 end
 end
