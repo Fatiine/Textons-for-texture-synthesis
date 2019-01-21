@@ -107,17 +107,41 @@ d2 = ADSN(Per);
 imagesc(d2); colormap gray;
 title("Asymptotic Discrete Spot Noise of periodic component");
 
+% ADSN of original image texton
+figure (100);
+d1b = ADSN(T);
+imagesc(d1b); colormap gray;
+title("Asymptotic Discrete Spot Noise of the texton");
+
+% ADSN of periodic component texton
+figure(110) 
+d2b = ADSN(PerT);
+imagesc(d2b); colormap gray;
+title("Asymptotic Discrete Spot Noise of the periodic component texton");
+
 % RPN of original image
 figure (12)
-d1 = RPN(a);
+r1 = RPN(a);
 imagesc(d1); colormap gray;
 title("RPN");
 
 % RPN of periodic component
 figure(13) 
-d2 = RPN(Per);
+r2 = RPN(Per);
 imagesc(d2); colormap gray;
 title("RPN of periodic component");
+
+% RPN of original image texton
+figure (120)
+r1b = RPN(T);
+imagesc(r1b); colormap gray;
+title("RPN of texton");
+
+% RPN of periodic component
+figure(130) 
+r2b = RPN(PerT);
+imagesc(r2b); colormap gray;
+title("RPN of periodic component texton");
 
 %%%%%%%%%%%%%%%%%%%% Synthesizing Textures With Arbitrary Sizes%%%%%%%%%%%%
 % with ADSN
@@ -167,10 +191,10 @@ title("Synthesizing a large size texture with periodic component texton ");
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % load colored imahe 
-a1=imread('../data/nuages.jpg');
+a1=imread('../data/textures/wall1011.png');
 figure(20)
 imshow(a1);
-title('Original');
+title('Image originale');
 
 % Periodic component 
 per = zeros(size(a1));
@@ -180,21 +204,21 @@ per(:,:,3) = per_decomp_smooth(a1(:,:,3));
 per = uint8(per);
 figure(21)
 imshow(per);
-title('Periodic component');
+title('Composante périodique');
 
 % Texton
 figure(22)
 alpha=[0.5;0.33;0.17];
 col_texton=Col_Texton(a1,alpha);
 imshow(col_texton);
-title('Color Texton');
+title('Texton');
 
 % Periodic component Texton
 figure(23)
 alpha=[0.5;0.33;0.17];
 col_texton_per=Col_Texton(per,alpha);
 imshow(col_texton_per);
-title('Color Texton of the periodic component');
+title('Texton de la composante périodique');
 
 % Randomization 
 Col_texton=fft2(col_texton); 
@@ -206,7 +230,7 @@ Col_texton(:,:,3)=abs(Col_texton(:,:,3)).*exp(1i*(angle(Col_texton(:,:,3))+angle
 figure(24) 
 b=uint8(ifft2(Col_texton)); 
 imshow(b); 
-title(" Texture synthesis after phase randomization"); 
+title(" Synthèse de texture après la randomization de phase du texton"); 
 
 % Randomization of periodic component 
 Col_texton_per=fft2(col_texton_per); 
@@ -219,7 +243,7 @@ Col_texton_per(:,:,3)=abs(Col_texton_per(:,:,3)).*exp(1i*(angle(Col_texton_per(:
 figure(25) 
 b_per=uint8(ifft2(Col_texton_per)); 
 imshow(b_per); 
-title(" Texture synthesis after phase randomization of the periodic component texton"); 
+title(" Synthèse de texture après la randomization de phase du texton de la composante périodique "); 
 
 % RPN of original image
 figure (26)
@@ -239,10 +263,10 @@ title("RPN de la composante périodique ");
 figure (28)
 d3 = ADSN_color(a1);
 imshow(d3);
-title("Asymptotic Discrete Spot Noise");
+title("ADSN de l'image originale");
 
 % ADSN of periodic component
 figure(29) 
 d4 = ADSN_color(per);
 imshow(d4);
-title("Asymptotic Discrete Spot Noise of periodic component");
+title("L'ADSN de la composante périodique");
