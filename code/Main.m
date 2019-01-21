@@ -233,4 +233,16 @@ figure (27)
 per_rpn = RPN_color(per);
 per_rpn=uint8(per_rpn);
 imshow(per_rpn); 
-title("RPN de la composante pÃ©riodique ");
+title("RPN de la composante périodique ");
+
+% ADSN of original image
+figure (28)
+d3 = ADSN_color(a1);
+imshow(d3);
+title("Asymptotic Discrete Spot Noise");
+
+% ADSN of periodic component
+figure(29) 
+d4 = ADSN_color(per);
+imshow(d4);
+title("Asymptotic Discrete Spot Noise of periodic component");
